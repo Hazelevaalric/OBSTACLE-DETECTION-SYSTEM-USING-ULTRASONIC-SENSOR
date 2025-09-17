@@ -19,6 +19,9 @@ Tinkercad provides a simulation environment where this circuit can be virtually 
 
 
 ## Circuit Diagram:
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/930c81a7-0da5-424b-a54e-c6333f80f3a3" />
+
  
 ## Procedure: //Modify the procedure based on your circuit
 
@@ -54,10 +57,141 @@ Step 7: Save Your Work
 
 ## Code:
 
+#include <Servo.h>  // Include Servo library
+
+// Define pins for Ultrasonic Sensor
+const int trigPin = 9;
+const int echoPin = 10;
+
+// Define pins for Motors
+const int motorA1 = 3;
+const int motorA2 = 4;
+const int motorB1 = 5;
+const int motorB2 = 6;
+
+// Define pin for Servo motor
+const int servoPin = 11; // Servo connected to Pin 11
+
+Servo servo;  // Create Servo object
+
+// Variables for Ultrasonic Sensor
+long duration;
+int distance;
+
+// Variables for scanning angle
+int angle = 0;  // Angle for servo motor to rotate (initially 0 degrees)
+
+void setup() {
+  // Start serial communication
+  Serial.begin(9600);
+
+  // Setup ultrasonic sensor
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+  // Setup motor pins
+  pinMode(motorA1, OUTPUT);
+  pinMode(motorA2, OUTPUT);
+  pinMode(motorB1, OUTPUT);
+  pinMode(motorB2, OUTPUT);
+
+  // Setup servo motor
+  servo.attach(servoPin);
+  servo.write(angle);  // Set initial position of the ultrasonic sensor
+
+  // Allow some time for the servo to move
+  delay(500);
+}
+
+void loop() {
+  // Scan area by rotating the ultrasonic sensor
+  for (angle = 0; angle <= 180; angle += 60) {
+    servo.write(angle);  // Rotate the ultrasonic sensor to the current angle
+    delay(500);  // Wait for servo to move
+    
+    // Measure distance using ultrasonic sensor
+    measureDistance();
+    
+    if (distance < 15) {  // If obstacle is detected within 15 cm
+      stopMotors();  // Stop the motors
+      delay(500);    // Wait for a moment before turning
+      avoidObstacle();  // Try to avoid the obstacle
+      break;  // Exit the loop to perform avoidance
+    }
+  }
+  
+  // Move forward if no obstacles detected
+  moveForward();
+}
+
+void measureDistance() {
+  // Trigger the ultrasonic sensor
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Measure the pulse duration
+  duration = pulseIn(echoPin, HIGH);
+  
+  // Calculate distance (in cm)
+  distance = duration * 0.034 / 2;
+
+  // Print the distance to the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+}
+
+void moveForward() {
+  // Move both motors forward
+  digitalWrite(motorA1, HIGH);
+  digitalWrite(motorA2, LOW);
+  digitalWrite(motorB1, HIGH);
+  digitalWrite(motorB2, LOW);
+}
+
+void stopMotors() {
+  // Stop both motors
+  digitalWrite(motorA1, LOW);
+  digitalWrite(motorA2, LOW);
+  digitalWrite(motorB1, LOW);
+  digitalWrite(motorB2, LOW);
+}
+
+void avoidObstacle() {
+  // Turn the robot to the left to avoid the obstacle
+  turnLeft();
+  delay(1000);  // Turn for 1 second to avoid obstacle
+  moveForward();  // Move forward after avoiding the obstacle
+}
+
+void turnLeft() {
+  // Turn the robot to the left
+  digitalWrite(motorA1, LOW);
+  digitalWrite(motorA2, HIGH);
+  digitalWrite(motorB1, HIGH);
+  digitalWrite(motorB2, LOW);
+}
+
+void turnRight() {
+  // Turn the robot to the right
+  digitalWrite(motorA1, HIGH);
+  digitalWrite(motorA2, LOW);
+  digitalWrite(motorB1, LOW);
+  digitalWrite(motorB2, HIGH);
+}
+
 
 ## Output:
- 
 
+
+
+https://github.com/user-attachments/assets/02eea06f-5842-43a8-b158-41ea72953e67
+
+
+ 
 
 ## Result
 
