@@ -20,7 +20,7 @@ Tinkercad provides a simulation environment where this circuit can be virtually 
 
 ## Circuit Diagram:
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/930c81a7-0da5-424b-a54e-c6333f80f3a3" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/ffdbbb0d-2d91-4140-bd3d-3fcc5a106f70" />
 
  
 ## Procedure: //Modify the procedure based on your circuit
@@ -187,11 +187,10 @@ void turnRight() {
 ## Output:
 
 
+https://github.com/user-attachments/assets/5c97858a-ff6c-43f3-9b8c-99beceb67cfe
 
-https://github.com/user-attachments/assets/02eea06f-5842-43a8-b158-41ea72953e67
 
 
- 
 
 ## Result
 
